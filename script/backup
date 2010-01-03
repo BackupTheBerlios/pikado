@@ -32,11 +32,15 @@ cd ../../../script
 ./clean
 
 cd ..
+git gc --prune
 
 APP_NAME=$(basename $(pwd))
-ARCHIVE_NAME=../${APP_NAME}_${DAT_STR}.tar.gz
+ARCHIVE_NAME=${APP_NAME}_${DAT_STR}.tar.gz
 
+cd ..
 rm -f $ARCHIVE_NAME
-tar -cvzf $ARCHIVE_NAME *
-cd script
+
+# tar adds hidden files and directorys only if we not start inside the tree !
+tar -cvzf $ARCHIVE_NAME ${APP_NAME}/
+cd ${APP_NAME}/script
 
