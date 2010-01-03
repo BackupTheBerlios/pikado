@@ -1,0 +1,34 @@
+#!/bin/bash
+################################################################################
+#  Pikado - Interface electronic and GUI for a PC based e-dart machine         #
+#  Copyright (C) 2006 - 2010 Matthias Klein <matthias.klein@linux.com>         #
+#                                                                              #
+#  This file is part of Pikado.                                                #
+#                                                                              #
+#  Pikado is free software: you can redistribute it and/or modify              #
+#  it under the terms of the GNU General Public License as published by        #
+#  the Free Software Foundation, either version 3 of the License, or           #
+#  (at your option) any later version.                                         #
+#                                                                              #
+#  Pikado is distributed in the hope that it will be useful,                   #
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of              #
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               #
+#  GNU General Public License for more details.                                #
+#                                                                              #
+#  You should have received a copy of the GNU General Public License           #
+#  along with Pikado.  If not, see <http://www.gnu.org/licenses/>.             #
+################################################################################
+
+if [ "$1" = "" ]
+then
+  APP_NAME=pikado
+else
+  APP_NAME=$1
+fi
+
+echo "break main" >  debug.dbg
+echo "run"        >> debug.dbg
+echo ""           >> debug.dbg
+
+ddd --command debug.dbg ../gui/src/$APP_NAME &
+

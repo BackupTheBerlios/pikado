@@ -1,0 +1,5 @@
+Known issues
+------------
+- The ISP connector is broken: The Mega128 uses PE0 (MOSI) + PE1 (MISO) instead of PB2 (MOSI) + PB3 (MISO) for ISP programming.
+  => Only JTAG programming is available !
+
