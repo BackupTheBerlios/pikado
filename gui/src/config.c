@@ -18,11 +18,15 @@
 *  along with Pikado.  If not, see <http://www.gnu.org/licenses/>.             *
 *******************************************************************************/
 #include <gtk/gtk.h>
+#include <glib.h>
+#include <glib/gstdio.h>
 #include <string.h>
+#include <unistd.h>
 
 #define CONFIG_GLOBAL
 #include "config.h"
 
+#define CFG_DIRNAME  ".dart"
 #define CFG_FILENAME ".dart/pikado.cfg"
 
 void config_load(void)
@@ -30,8 +34,19 @@ void config_load(void)
   int i;
   gchar *filename, *content;
   gsize bytes;
+  struct stat stat_buf;
   GError *error = NULL;
 
+  filename = g_build_filename(g_get_home_dir(), CFG_DIRNAME, NULL);
+  if(g_stat(filename, &stat_buf) != 0)
+  {
+    if(g_mkdir(filename, 0777) != 0)
+    {
+      g_print("config_load(): Error while creating the configuration directory\n");
+      _exit(-1);
+    }
+  }
+  
   filename = g_build_filename(g_get_home_dir(), CFG_FILENAME, NULL);
 
   g_file_get_contents(filename, &content, &bytes, &error);
