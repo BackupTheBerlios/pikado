@@ -23,7 +23,7 @@
 
 typedef unsigned char u08;
 
-u08 SoftwareVersion[] = "Pikado_2009_07_19";
+u08 SoftwareVersion[] = "Pikado_2010_01_15";
 
 #define TIMER0_RELOAD		205	   // 200us @ 16 MHz
 #define PC_BAUDRATE     51     // 19200 Baud @ 16MHz
@@ -51,31 +51,31 @@ void init(void)
 	DDRC  =  0x00;					        // Inputs
 	PORTC =  0xFF;					        // Internal pull-up enable
 
-  // ISP
+  // ISP / IO
 	DDRB  =  0x00;					        // Inputs
 	PORTB =  0x00;					        // Tri-state (Hi-Z)
 
-  // Inputs 1..4 of the matrix / LED3
-	DDRD  =  0xFF;					        // PD0..7 Outputs
-	PORTD =  0xFF;					        // PD0..7 HIGH
+  // Inputs 1..4 of the matrix / RS232 / LED3
+	DDRD  =  0xF9;					        // PD7..3 + PD0 Outputs; PD1..PD2 Inputs
+	PORTD =  0xF9;					        // PD7..3 + PD0 HIGH;    PD1..PD2 Tri-state (Hi-Z)
 
-  // RS232 / push-buttons / movement-sensor / LED1..2
-	DDRE  =  0xC2;					        // Outputs: PE7, PE6, PE1; inputs:  the rest
-	PORTE =  0xFF;					        // HIGH:    PE7, PE6, PE1; pull-up: the rest
+  // ISP / push-buttons / LED1..2
+	DDRE  =  0xCD;					        // Outputs: PE7, PE6, PE3, PE2, PE0; inputs:  the rest
+	PORTE =  0xFF;					        // HIGH:    PE7, PE6, PE3, PE2, PE0; pull-up: the rest
 
-  // JTAG / vibration-sensor
+  // JTAG / IO
 	DDRF  =  0x00;					        // Inputs
 	PORTF =  0x00;					        // Tri-state (Hi-Z)
 
   // USART: Baudrate
-  UBRR0H =  (u08) (PC_BAUDRATE >> 8);
-  UBRR0L =  (u08) PC_BAUDRATE;
+  UBRR1H =  (u08) (PC_BAUDRATE >> 8);
+  UBRR1L =  (u08) PC_BAUDRATE;
   
   // USART: Sender, receiver und receiver-interrupt enable
-  UCSR0B = (1<<RXEN0)|(1<<TXEN0)|(1<<RXCIE0);
+  UCSR1B = (1<<RXEN1)|(1<<TXEN1)|(1<<RXCIE1);
 
   // Set frame format: 8data, 1stop bit
-  UCSR0C = (1<<UCSZ00) | (1<<UCSZ01);
+  UCSR1C = (1<<UCSZ10) | (1<<UCSZ11);
 
   TIFR  |= 1<<TOV0;		  	        // Clear timer 0 overflow flag
   TIMSK |= 1<<TOIE0;		          // Timer 0 overflow interrupt enable
@@ -156,14 +156,14 @@ void pc_send(u08 *data, u08 len)
   
   for(i=0; i<len; i++)
   {
-    while (!( UCSR0A & (1<<UDRE0))); // wait if the dataregister is ready
-    UDR0 = data[i];
+    while (!( UCSR1A & (1<<UDRE1))); // wait if the dataregister is ready
+    UDR1 = data[i];
   }
 }
 
-ISR(USART0_RX_vect)
+ISR(USART1_RX_vect)
 {
-  u08 c = UDR0;
+  u08 c = UDR1;
 
   if(c == 0x00)    // Connection test
   {
