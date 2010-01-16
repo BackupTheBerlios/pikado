@@ -21,6 +21,7 @@
 #define CONFIG_H
 
 #include <stdint.h>
+#include <libconfig.h>
 
 #ifndef CONFIG_GLOBAL
   #define CONFIG_VAR extern
@@ -35,7 +36,7 @@ struct _Config
 {
   char     font_name[100];
   char     serial_port[100];
-  uint8_t  players;
+  long     players;
   char     player_name[MAX_PLAYERS][100];
 };
 
@@ -44,5 +45,10 @@ CONFIG_VAR Config config;
 void config_load(void);
 void config_save(void);
 
-#endif // CONFIG_H
+void config_check_config_directory(void);
+void config_load_int_value(const config_t *cfg_ptr, const char *path, long *value, int init_value);
+void config_save_int_value(const config_t *cfg_ptr, const char *path, long *value);
+void config_load_string_value(const config_t *cfg_ptr, const char *path, char *value, int value_size, char *init_value);
+void config_save_string_value(const config_t *cfg_ptr, const char *path, char *value);
 
+#endif // CONFIG_H

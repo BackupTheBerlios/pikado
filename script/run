@@ -1,3 +1,4 @@
+#!/bin/bash
 ################################################################################
 #  Pikado - Interface electronic and GUI for a PC based e-dart machine         #
 #  Copyright (C) 2006 - 2010 Matthias Klein <matthias.klein@linux.com>         #
@@ -17,27 +18,6 @@
 #  You should have received a copy of the GNU General Public License           #
 #  along with Pikado.  If not, see <http://www.gnu.org/licenses/>.             #
 ################################################################################
-CC      = gcc
-CFLAGS  = -Wall -g `pkg-config --cflags gtk+-2.0` -DG_DISABLE_DEPRECATED
-LDFLAGS = -Wall -g `pkg-config --libs gtk+-2.0` -lconfig
-###############################################################################
-DEPENDFILE = .depend
 
-%.o: %.c
-	$(CC) $(CFLAGS) -c $<
-###############################################################################
-.PHONY: all depend clean
-
-all: depend pikado
-
-pikado: pikado.o config.o board.o screen_main.o screen_single.o
-	$(CC) $(LDFLAGS) -o $@ $^
-
-clean:
-	rm -f pikado *.o $(DEPENDFILE)
-
-depend:
-	$(CC) -MM *.c > $(DEPENDFILE)
-
--include $(DEPENDFILE)
+../gui/src/pikado &
 

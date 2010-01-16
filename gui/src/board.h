@@ -21,6 +21,7 @@
 #define BOARD_H
 
 #include <stdint.h>
+#include <libconfig.h>
 
 #ifndef BOARD_GLOBAL
   #define BOARD_VAR extern
@@ -43,18 +44,21 @@ struct _Segment
   uint8_t score;
 };
 
-int8_t  board_connect         (void);
-void    board_disconnect      (void);
-int8_t  board_load_onfig      (void);
-int8_t  board_get_segment     (Segment *segment);
-int8_t  board_set_matrix_type (void);
+int8_t  board_connect                           (void);
+void    board_disconnect                        (void);
+int8_t  board_load_config                       (void);
+int     board_load_int_element                  (const config_t *cfg_ptr, const config_setting_t * group, char *element);
+void    board_load_config_error                 (config_t *cfg_ptr, char *msg);
+int8_t  board_get_segment                       (Segment *segment);
+int8_t  board_set_matrix_type                   (void);
+void    board_check_matrix_configuration_file   (void);
 
-BOARD_VAR uint8_t     board_key_next_player;
-BOARD_VAR uint8_t     board_key_bounce_out;
+BOARD_VAR long        board_key_next_player;
+BOARD_VAR long        board_key_bounce_out;
 BOARD_VAR Segment     board_matrix[255];
 BOARD_VAR uint8_t     board_recv_buffer[100];
 BOARD_VAR char        board_name[255];
-BOARD_VAR uint8_t     board_output_count;
+BOARD_VAR long        board_output_count;
 BOARD_VAR uint8_t     board_is_connected;
 BOARD_VAR int         board_fd_ser;
 

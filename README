@@ -70,4 +70,5 @@ Software used for the GUI:
 - Linux distribution: Ubuntu GNU/Linux
 - Compiler: GNU C Compiler
 - GUI Toolkit: GTK+
+- libconfig from Mark Lindner for the configuration files: http://www.hyperrealm.com/libconfig/libconfig.html
 

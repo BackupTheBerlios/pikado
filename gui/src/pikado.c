@@ -18,14 +18,16 @@
 *  along with Pikado.  If not, see <http://www.gnu.org/licenses/>.             *
 *******************************************************************************/
 #include <gtk/gtk.h>
+#include <unistd.h>
 #include "config.h"
+#include "board.h"
 #include "screen_main.h"
 
 int main(int argc, char **argv)
 {
   gtk_init(&argc, &argv);
   config_load();
-
+  
   screen_main_create();
   gtk_main();
 

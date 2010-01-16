@@ -26,16 +26,71 @@
 #define CONFIG_GLOBAL
 #include "config.h"
 
-#define CFG_DIRNAME  ".dart"
-#define CFG_FILENAME ".dart/pikado.cfg"
+#define CFG_DIRNAME  ".pikado"
+#define CFG_FILENAME ".pikado/config"
 
+// Load the configuration from the file
 void config_load(void)
 {
   int i;
-  gchar *filename, *content;
-  gsize bytes;
+  gchar *filename;
+  struct config_t cfg;
+  char setting_name[100], setting_init_value[100];
+
+  config_check_config_directory();
+  filename = g_build_filename(g_get_home_dir(), CFG_FILENAME, NULL);
+  config_init(&cfg);
+  config_read_file(&cfg, filename);
+
+  config_load_string_value(&cfg, "font",        config.font_name,   sizeof(config.font_name),   "Sans 10");
+  config_load_string_value(&cfg, "serial_port", config.serial_port, sizeof(config.serial_port), "/dev/ttyS0");
+  config_load_int_value(   &cfg, "players",     &config.players,                                4);
+
+  for(i=0; i<MAX_PLAYERS; i++)
+  {
+    snprintf(setting_name,       sizeof(setting_name),       "player_name_%d", i + 1);
+    snprintf(setting_init_value, sizeof(setting_init_value), "Player %d",      i + 1);
+    config_load_string_value(&cfg, setting_name, config.player_name[i], sizeof(config.player_name[i]), setting_init_value);
+  }
+  
+  config_write_file(&cfg, filename);
+  config_destroy(&cfg);
+}
+
+// Save the configuration to the file
+void config_save(void)
+{
+  int i;
+  gchar *filename;
+  struct config_t cfg;
+  char setting_name[100], setting_init_value[100];
+
+  filename = g_build_filename(g_get_home_dir(), CFG_FILENAME, NULL);
+
+  config_init(&cfg);
+  config_read_file(&cfg, filename);
+
+  config_save_string_value(&cfg, "font",        config.font_name);
+  config_save_string_value(&cfg, "serial_port", config.serial_port);
+  config_save_int_value(   &cfg, "players",     &config.players);
+
+  for(i=0; i<MAX_PLAYERS; i++)
+  {
+    snprintf(setting_name,       sizeof(setting_name),       "player_name_%d", i + 1);
+    snprintf(setting_init_value, sizeof(setting_init_value), "Player %d",      i + 1);
+    config_save_string_value(&cfg, setting_name, config.player_name[i]);
+  }
+  
+  config_write_file(&cfg, filename);
+  config_destroy(&cfg);
+}
+
+// Check the directory for the configuration files.
+// Create a new directory if it don't exist.
+void config_check_config_directory(void)
+{
+  gchar *filename;
   struct stat stat_buf;
-  GError *error = NULL;
 
   filename = g_build_filename(g_get_home_dir(), CFG_DIRNAME, NULL);
   if(g_stat(filename, &stat_buf) != 0)
@@ -46,51 +101,57 @@ void config_load(void)
       _exit(-1);
     }
   }
-  
-  filename = g_build_filename(g_get_home_dir(), CFG_FILENAME, NULL);
+}
 
-  g_file_get_contents(filename, &content, &bytes, &error);
-  if(error != NULL)
+// Load a "long" value from the configuration file.
+// If the setting don't exist, it si created with an inital value.
+void config_load_int_value(const config_t *cfg_ptr, const char *path, long *value, int init_value)
+{
+  if(!config_lookup_int(cfg_ptr, path, value))
   {
-    g_print("config_load(): Error while loading the configuration file: %s\n", error->message);
-    g_clear_error(&error);
-    bytes = 0;
+    config_setting_t *setting = NULL;
+    
+    setting = config_setting_add(cfg_ptr->root, path, CONFIG_TYPE_INT);
+    *value = init_value;
+    config_setting_set_int(setting, *value);
   }
+}
 
-  if(bytes != sizeof(Config))
+// Saves a "long" value from the configuration file
+void config_save_int_value(const config_t *cfg_ptr, const char *path, long *value)
+{
+  config_setting_t *setting = NULL;
+
+  setting = config_lookup(cfg_ptr, path);
+  if(setting != NULL)
+    config_setting_set_int(setting, *value);
+}
+
+// Load a "string" value from the configuration file.
+// If the setting don't exist, it si created with an inital value.
+void config_load_string_value(const config_t *cfg_ptr, const char *path, char *value, int value_size, char *init_value)
+{
+  const char *setting_ptr;
+
+  if(!config_lookup_string(cfg_ptr, path, &setting_ptr))
   {
-    g_print("config_load(): The configuration file has the wrong size! Creating a new one ...\n");
-    memset(&config, 0, sizeof(Config));
-
-    // TODO Replace with the standard widget font ...
-    snprintf(config.font_name,         sizeof(config.font_name),         "Sans 10");
-    snprintf(config.serial_port,       sizeof(config.serial_port),       "/dev/ttyS0");
-
-    config.players = 4;
-    for(i=0; i<MAX_PLAYERS; i++)
-      snprintf(config.player_name[i], sizeof(config.player_name[i]), "Player %d", i + 1);
-
-    config_save();
+    config_setting_t *setting = NULL;
+    
+    setting = config_setting_add(cfg_ptr->root, path, CONFIG_TYPE_STRING);
+    strncpy(value, init_value, value_size);
+    config_setting_set_string(setting, value);
   }
   else
-    memcpy(&config, content, sizeof(Config));
-
-  if(config.players > MAX_PLAYERS)
-    config.players = 4;
+    strncpy(value, setting_ptr, value_size);
 }
 
-void config_save(void)
+// Saves a "string" value from the configuration file.
+// If the setting don't exist, it si created with an inital value.
+void config_save_string_value(const config_t *cfg_ptr, const char *path, char *value)
 {
-  gchar *filename;
-  GError *error = NULL;
+  config_setting_t *setting = NULL;
 
-  filename = g_build_filename(g_get_home_dir(), CFG_FILENAME, NULL);
-
-  g_file_set_contents(filename, (gchar *) &config, sizeof(Config), &error);
-  if(error != NULL)
-  {
-    g_print("config_save(): Error while saving the configuration file: %s\n", error->message);
-    g_clear_error(&error);
-  }
+  setting = config_lookup(cfg_ptr, path);
+  if(setting != NULL)
+    config_setting_set_string(setting, value);
 }
-
