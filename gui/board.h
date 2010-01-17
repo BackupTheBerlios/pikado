@@ -52,6 +52,7 @@ void    board_load_config_error                 (config_t *cfg_ptr, char *msg);
 int8_t  board_get_segment                       (Segment *segment);
 int8_t  board_set_matrix_type                   (void);
 void    board_check_matrix_configuration_file   (void);
+int8_t  board_get_firmware_version              (char *version, int version_size);
 
 BOARD_VAR long        board_key_next_player;
 BOARD_VAR long        board_key_bounce_out;

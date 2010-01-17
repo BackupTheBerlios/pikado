@@ -1,3 +1,4 @@
+#!/bin/bash
 ################################################################################
 #  Pikado - Interface electronic and GUI for a PC based e-dart machine         #
 #  Copyright (C) 2006 - 2010 Matthias Klein <matthias.klein@linux.com>         #
@@ -18,7 +19,24 @@
 #  along with Pikado.  If not, see <http://www.gnu.org/licenses/>.             #
 ################################################################################
 
-.depend
-*.o
-pikado
+./remote_upload
+
+if [ "$1" = "" ]
+then
+  echo "target extended-remote 192.168.1.180:3180" >  debug.dbg
+  echo "sym ../gui/pikado"                         >> debug.dbg
+  echo "set remote exec-file /pikado/pikado"       >> debug.dbg
+  echo "break main"                                >> debug.dbg
+  echo "run --display :0.0"                        >> debug.dbg
+  echo ""                                          >> debug.dbg
+  ddd --command debug.dbg ../gui/pikado &
+else
+  echo "target extended-remote 192.168.1.180:3180" >  debug.dbg
+  echo "sym ../gui/pikado_diag"                    >> debug.dbg
+  echo "set remote exec-file /pikado/pikado_diag"  >> debug.dbg
+  echo "break main"                                >> debug.dbg
+  echo "run --display :0.0"                        >> debug.dbg
+  echo ""                                          >> debug.dbg
+  ddd --command debug.dbg ../gui/pikado_diag &
+fi
 

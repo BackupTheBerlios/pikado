@@ -1,0 +1,56 @@
+SSH login
+---------
+- Install the SSH server:
+  $ sudo apt-get install openssh-server
+
+  => The server will be restarted automatically
+
+- Access from an another machine:
+  $ ssh 192.168.1.180 -l username
+
+- Copy your public SSH key to the server:
+  $ ssh-copy-id -i ~/.ssh/id_rsa.pub username@192.168.1.180
+
+Application path on the target
+------------------------------
+$ sudo mkdir /pikado
+$ chown username:username /pikado
+
+Sharing the application path using NFS
+--------------------------------------
+- Create the application path:
+  $ sudo mkdir /pikado
+  $ chown username:username /pikado
+
+- Install the NFS server:
+  $ sudo apt-get install nfs-kernel-server
+
+- Share the application path by adding them to the /etc/exports file:
+
+  /pikado *(rw,no_subtree_check)
+
+  Restart the NFS server:
+  $ sudo /etc/init.d/nfs-kernel-server restart
+
+- Access from an another machine:
+  $ sudo mkdir /mnt/pikado
+  $ chown username:username /mnt/pikado
+  $ sudo mount 192.168.1.180:/pikado /mnt/pikado
+
+- For easy access without root rights, add the share into the /etc/fstab file:
+
+  192.168.1.180:/pikado     /mnt/pikado     nfs user,noauto,rw 0 0
+
+- Now you can mount and unmount the share with a user:
+
+  $ mount  /mnt/pikado
+  $ umount /mnt/pikado
+
+GDB-Server
+----------
+- You can add gdbserver to your startprogramms at System->Settings->Startprogramms to allow remote debugging:
+
+  gdbserver --multi host:3180
+
+  (If you would add it to the rc.local file you don't get access to the X server)
+

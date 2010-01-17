@@ -19,9 +19,9 @@
 #  along with Pikado.  If not, see <http://www.gnu.org/licenses/>.             #
 ################################################################################
 
-cd ../gui/src
+cd ../gui
 make clean
-cd ../../script
+cd ../script
 
 rm -f debug.dbg
 

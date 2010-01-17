@@ -19,14 +19,12 @@
 #  along with Pikado.  If not, see <http://www.gnu.org/licenses/>.             #
 ################################################################################
 
-cd ../gui
+REMOTE_PATH=/mnt/pikado/
 
-for FNAME in *.c *.h
-do
-  mv $FNAME ${FNAME}.old
-  expand -t2 ${FNAME}.old > $FNAME
-  rm ${FNAME}.old
-done
+ssh 192.168.1.180 'killall pikado ; killall pikado_diag'
 
-cd ../script
+mount ${REMOTE_PATH}
+
+cp -v ../gui/pikado      ${REMOTE_PATH}
+cp -v ../gui/pikado_diag ${REMOTE_PATH}
 

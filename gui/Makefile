@@ -1,4 +1,3 @@
-#!/bin/bash
 ################################################################################
 #  Pikado - Interface electronic and GUI for a PC based e-dart machine         #
 #  Copyright (C) 2006 - 2010 Matthias Klein <matthias.klein@linux.com>         #
@@ -18,15 +17,29 @@
 #  You should have received a copy of the GNU General Public License           #
 #  along with Pikado.  If not, see <http://www.gnu.org/licenses/>.             #
 ################################################################################
+CC      = gcc
+CFLAGS  = -Wall -g `pkg-config --cflags gtk+-2.0` -DG_DISABLE_DEPRECATED
+LDFLAGS = -Wall -g `pkg-config --libs gtk+-2.0` -lconfig
+###############################################################################
+DEPENDFILE = .depend
 
-cd ../gui
+%.o: %.c
+	$(CC) $(CFLAGS) -c $<
+###############################################################################
+.PHONY: all depend clean
 
-for FNAME in *.c *.h
-do
-  mv $FNAME ${FNAME}.old
-  expand -t2 ${FNAME}.old > $FNAME
-  rm ${FNAME}.old
-done
+all: depend pikado pikado_diag
 
-cd ../script
+pikado: pikado.o config.o board.o screen_main.o screen_single.o
+	$(CC) $(LDFLAGS) -o $@ $^
 
+pikado_diag: pikado_diag.o config.o board.o
+	$(CC) $(LDFLAGS) -o $@ $^
+
+clean:
+	rm -f pikado pikado_diag *.o $(DEPENDFILE)
+
+depend:
+	$(CC) -MM *.c > $(DEPENDFILE)
+
+-include $(DEPENDFILE)

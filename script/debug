@@ -30,5 +30,5 @@ echo "break main" >  debug.dbg
 echo "run"        >> debug.dbg
 echo ""           >> debug.dbg
 
-ddd --command debug.dbg ../gui/src/$APP_NAME &
+ddd --command debug.dbg ../gui/$APP_NAME &
 

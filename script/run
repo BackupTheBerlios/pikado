@@ -19,5 +19,5 @@
 #  along with Pikado.  If not, see <http://www.gnu.org/licenses/>.             #
 ################################################################################
 
-../gui/src/pikado &
+../gui/pikado &
 

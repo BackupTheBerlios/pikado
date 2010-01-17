@@ -137,7 +137,6 @@ int8_t board_connect(void)
   struct termios termios_p;
 
   board_is_connected = FALSE;
-  close(board_fd_ser);
 
   if(board_load_config() != BOARD_SUCCESS)
     return BOARD_ERROR_CFG_FILE;
@@ -231,7 +230,6 @@ int8_t board_get_segment(Segment *segment)
 
 int8_t board_set_matrix_type(void)
 {
-
   int recv_len;
   unsigned char retry = 10;
 
@@ -262,6 +260,52 @@ int8_t board_set_matrix_type(void)
         {
           close(board_fd_ser);
           return BOARD_ERROR;
+        }
+      }
+    }
+
+    usleep(100000);
+    retry--;
+  }
+
+  return BOARD_ERROR;
+}
+
+int8_t board_get_firmware_version(char *version, int version_size)
+{
+  int i;
+  int recv_len, ret_val;
+  unsigned char retry = 10;
+  unsigned char cmd = 0x11;
+
+  if(write(board_fd_ser, &cmd, 1) == -1)
+    return BOARD_ERROR;
+    
+  recv_len = 0;
+
+  while(retry)
+  {
+    ret_val = read(board_fd_ser, &board_recv_buffer[recv_len] , sizeof(board_recv_buffer) - recv_len);
+
+    if(ret_val == -1)
+    {
+      if(errno != EAGAIN)
+        return BOARD_ERROR;
+    }
+    else
+    {
+      if(ret_val > 0)
+      {
+        recv_len += ret_val;
+        
+        for(i=0; i<recv_len; i++)
+        {
+          // Search for strong end
+          if(board_recv_buffer[i] == 0x0)
+          {
+            strncpy(version, (char *) board_recv_buffer, version_size);
+            return BOARD_SUCCESS;
+          }
         }
       }
     }

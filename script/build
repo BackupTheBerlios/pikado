@@ -19,7 +19,7 @@
 #  along with Pikado.  If not, see <http://www.gnu.org/licenses/>.             #
 ################################################################################
 
-cd ../gui/src
+cd ../gui
 make $*
-cd ../../script
+cd ../script
 
