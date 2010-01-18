@@ -30,7 +30,7 @@ DEPENDFILE = .depend
 
 all: depend pikado pikado_diag
 
-pikado: pikado.o config.o board.o screen_main.o screen_single.o
+pikado: pikado.o config.o board.o screen_main.o screen_games.o screen_single.o
 	$(CC) $(LDFLAGS) -o $@ $^
 
 pikado_diag: pikado_diag.o config.o board.o

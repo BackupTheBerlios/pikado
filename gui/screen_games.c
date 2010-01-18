@@ -17,49 +17,25 @@
 *  You should have received a copy of the GNU General Public License           *
 *  along with Pikado.  If not, see <http://www.gnu.org/licenses/>.             *
 *******************************************************************************/
-#define SCREEN_MAIN_GLOBAL
-#include "screen_main.h"
+#include <unistd.h>
+#define SCREEN_GAMES_GLOBAL
 #include "screen_games.h"
-#include "screen_single.h"
+#include "screen_main.h"
 #include "config.h"
 
-void screen_main_sig_destroy(GtkWidget *widget, gpointer data)
+void screen_games_create(void)
 {
-  gtk_main_quit();
-}
+  GtkWidget *button, *button_label;
 
-void screen_main_create(void)
-{
-  screen_main_wnd = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-  gtk_container_set_border_width (GTK_CONTAINER(screen_main_wnd), 12);
-  gtk_window_set_title(GTK_WINDOW(screen_main_wnd), "Pikado");
-  gtk_window_set_default_size(GTK_WINDOW(screen_main_wnd), 800, 525);
-  g_signal_connect(screen_main_wnd, "destroy", G_CALLBACK(screen_main_sig_destroy), NULL);
+  if(GTK_IS_WIDGET(screen_main_vbox))
+    gtk_widget_destroy(screen_main_vbox);
+  screen_main_vbox = gtk_vbox_new (FALSE, 10);
 
-  screen_games_create();
+  button = gtk_button_new_with_label("301");
+  button_label = gtk_bin_get_child(GTK_BIN(button));
+  gtk_widget_modify_font(button_label, config.label_font);
+  gtk_container_add(GTK_CONTAINER(screen_main_vbox), button);
 
+  gtk_container_add(GTK_CONTAINER(screen_main_wnd), screen_main_vbox);
   gtk_widget_show_all(screen_main_wnd);
-//  gtk_window_maximize(GTK_WINDOW(screen_main_wnd));
 }
-
-/*  
-  screen_single_create(5);
-
-  gtk_label_set_text(GTK_LABEL(screen_single_bottom_label[0]), "1. Throw");
-  gtk_label_set_text(GTK_LABEL(screen_single_bottom_label[1]), "2. Throw");
-  gtk_label_set_text(GTK_LABEL(screen_single_bottom_label[2]), "3. Throw");
-  gtk_label_set_text(GTK_LABEL(screen_single_bottom_label[3]), "Score");
-  gtk_label_set_text(GTK_LABEL(screen_single_bottom_label[4]), "Round");
-
-  gtk_label_set_text(GTK_LABEL(screen_single_bottom_value[0]), "111");
-  gtk_label_set_text(GTK_LABEL(screen_single_bottom_value[1]), "222");
-  gtk_label_set_text(GTK_LABEL(screen_single_bottom_value[2]), "333");
-  gtk_label_set_text(GTK_LABEL(screen_single_bottom_value[3]), "444");
-  gtk_label_set_text(GTK_LABEL(screen_single_bottom_value[4]), "555");
-
-  for(i=0; i<config.players; i++)
-  {
-    gtk_label_set_text(GTK_LABEL(screen_single_player_name [i]), config.player_name[i]);
-    gtk_label_set_text(GTK_LABEL(screen_single_player_score[i]), "999");
-  }
-*/

@@ -27,7 +27,6 @@ void screen_single_create(int bottom_fields)
 {
   int i;
   GtkWidget *bottom_table, *top_table;
-  PangoFontDescription *label_font;
 
   if((bottom_fields == 0) || (bottom_fields > SCREEN_SINGLE_BOTTOM_MAX_FIELDS))
   {
@@ -35,8 +34,6 @@ void screen_single_create(int bottom_fields)
     gtk_main_quit();
     _exit(0);
   }
-
-  label_font = pango_font_description_from_string(config.font_name);
 
   if(GTK_IS_WIDGET(screen_main_vbox))
     gtk_widget_destroy(screen_main_vbox);
@@ -49,8 +46,8 @@ void screen_single_create(int bottom_fields)
     screen_single_player_score[i] = gtk_label_new("");
 
     gtk_misc_set_alignment(GTK_MISC(screen_single_player_name[i]), 0.1, 0.5);
-    gtk_widget_modify_font(screen_single_player_name [i], label_font);
-    gtk_widget_modify_font(screen_single_player_score[i], label_font);
+    gtk_widget_modify_font(screen_single_player_name [i], config.label_font);
+    gtk_widget_modify_font(screen_single_player_score[i], config.label_font);
 
     // left, right, top, bottom
     gtk_table_attach(GTK_TABLE(top_table), screen_single_player_name [i], 0, 3, i, i + 1, GTK_EXPAND | GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
@@ -64,8 +61,8 @@ void screen_single_create(int bottom_fields)
     screen_single_bottom_label[i] = gtk_label_new("");
     screen_single_bottom_value[i] = gtk_label_new("");
 
-    gtk_widget_modify_font(screen_single_bottom_label[i], label_font);
-    gtk_widget_modify_font(screen_single_bottom_value[i], label_font);
+    gtk_widget_modify_font(screen_single_bottom_label[i], config.label_font);
+    gtk_widget_modify_font(screen_single_bottom_value[i], config.label_font);
 
     // left, right, top, bottom
     gtk_table_attach(GTK_TABLE(bottom_table), screen_single_bottom_label[i], i, i + 1, 0, 1, GTK_EXPAND | GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
@@ -76,4 +73,3 @@ void screen_single_create(int bottom_fields)
   gtk_container_add(GTK_CONTAINER(screen_main_wnd), screen_main_vbox);
   gtk_widget_show_all(screen_main_wnd);
 }
-

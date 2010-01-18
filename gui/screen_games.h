@@ -17,39 +17,19 @@
 *  You should have received a copy of the GNU General Public License           *
 *  along with Pikado.  If not, see <http://www.gnu.org/licenses/>.             *
 *******************************************************************************/
-#ifndef CONFIG_H
-#define CONFIG_H
+#ifndef SCREEN_GAMES_H
+#define SCREEN_GAMES_H
 
-#include <stdint.h>
-#include <libconfig.h>
+#include <gtk/gtk.h>
+#include "config.h"
 
-#ifndef CONFIG_GLOBAL
-  #define CONFIG_VAR extern
+#ifndef SCREEN_GAMES_GLOBAL
+  #define SCREEN_GAMES_VAR extern
 #else
-  #define CONFIG_VAR
+  #define SCREEN_GAMES_VAR
 #endif
 
-#define MAX_PLAYERS 8
+void screen_games_create(void);
 
-typedef struct _Config Config;
-struct _Config
-{
-  char                    font_name[100];
-  PangoFontDescription    *label_font;
-  char                    serial_port[100];
-  long                    players;
-  char                    player_name[MAX_PLAYERS][100];
-};
+#endif // SCREEN_GAMES_H
 
-CONFIG_VAR Config config;
-
-void config_load(void);
-void config_save(void);
-
-void config_check_config_directory(void);
-void config_load_int_value(const config_t *cfg_ptr, const char *path, long *value, int init_value);
-void config_save_int_value(const config_t *cfg_ptr, const char *path, long *value);
-void config_load_string_value(const config_t *cfg_ptr, const char *path, char *value, int value_size, char *init_value);
-void config_save_string_value(const config_t *cfg_ptr, const char *path, char *value);
-
-#endif // CONFIG_H

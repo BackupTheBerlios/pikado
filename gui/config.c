@@ -43,6 +43,8 @@ void config_load(void)
   config_read_file(&cfg, filename);
 
   config_load_string_value(&cfg, "font",        config.font_name,   sizeof(config.font_name),   "Sans 10");
+  config.label_font = pango_font_description_from_string(config.font_name);
+  
   config_load_string_value(&cfg, "serial_port", config.serial_port, sizeof(config.serial_port), "/dev/ttyS0");
   config_load_int_value(   &cfg, "players",     &config.players,                                4);
 
