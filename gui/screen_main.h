@@ -32,6 +32,7 @@ SCREEN_MAIN_VAR GtkWidget *screen_main_wnd, *screen_main_vbox;
 
 void screen_main_sig_destroy(GtkWidget *widget, gpointer data);
 void screen_main_create(void);
+void screen_main_footer(void);
 
 #endif // SCREEN_MAIN_H
 

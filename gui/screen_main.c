@@ -42,6 +42,19 @@ void screen_main_create(void)
 //  gtk_window_maximize(GTK_WINDOW(screen_main_wnd));
 }
 
+void screen_main_footer(void)
+{
+  GtkWidget *hbox, *button, *button_label;
+  
+  hbox = gtk_hbox_new (FALSE, 10);
+  button = gtk_button_new_with_label(">");
+  button_label = gtk_bin_get_child(GTK_BIN(button));
+  gtk_widget_modify_font(button_label, config.label_font);
+  
+  gtk_container_add(GTK_CONTAINER(hbox), button);
+  gtk_container_add(GTK_CONTAINER(screen_main_vbox), hbox);
+}
+
 /*  
   screen_single_create(5);
 
