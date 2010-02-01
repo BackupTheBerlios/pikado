@@ -37,3 +37,4 @@ void screen_games_button(char *label, int x, int y, GCallback func);
 void screen_games_sig_cricket(GtkWidget *widget, gpointer data);
 
 #endif // SCREEN_GAMES_H
+

@@ -64,3 +64,4 @@ BOARD_VAR uint8_t     board_is_connected;
 BOARD_VAR int         board_fd_ser;
 
 #endif // DART_BOARD_H
+

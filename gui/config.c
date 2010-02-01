@@ -157,3 +157,4 @@ void config_save_string_value(const config_t *cfg_ptr, const char *path, char *v
   if(setting != NULL)
     config_setting_set_string(setting, value);
 }
+

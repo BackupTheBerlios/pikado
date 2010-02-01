@@ -73,3 +73,4 @@ void screen_single_create(int bottom_fields)
   gtk_container_add(GTK_CONTAINER(screen_main_wnd), screen_main_vbox);
   gtk_widget_show_all(screen_main_wnd);
 }
+

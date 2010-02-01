@@ -68,3 +68,4 @@ void screen_games_sig_cricket(GtkWidget *widget, gpointer data)
 {
   g_print("cricket\n");
 }
+

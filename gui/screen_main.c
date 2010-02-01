@@ -19,6 +19,7 @@
 *******************************************************************************/
 #define SCREEN_MAIN_GLOBAL
 #include "screen_main.h"
+#include "screen_settings.h"
 #include "screen_games.h"
 #include "screen_single.h"
 #include "config.h"
@@ -50,9 +51,10 @@ void screen_main_footer(void)
   button = gtk_button_new_with_label(">");
   button_label = gtk_bin_get_child(GTK_BIN(button));
   gtk_widget_modify_font(button_label, config.label_font);
+  g_signal_connect(button, "clicked", G_CALLBACK(screen_settings_create), NULL);
   
-  gtk_container_add(GTK_CONTAINER(hbox), button);
-  gtk_container_add(GTK_CONTAINER(screen_main_vbox), hbox);
+  gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 0);
+  gtk_box_pack_start(GTK_BOX(screen_main_vbox), hbox, FALSE, FALSE, 0);
 }
 
 /*  
@@ -76,3 +78,4 @@ void screen_main_footer(void)
     gtk_label_set_text(GTK_LABEL(screen_single_player_score[i]), "999");
   }
 */
+
