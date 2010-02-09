@@ -34,6 +34,9 @@
 
 #define BOARD_FILENAME ".pikado/matrix"
 
+/*******************************************************************************
+* Load the matrix configuration                                                *
+*******************************************************************************/
 int8_t board_load_config(void)
 {
   int i, config_array_count, segment_nr, number;
@@ -109,6 +112,9 @@ int8_t board_load_config(void)
   return BOARD_SUCCESS;
 }
 
+/*******************************************************************************
+* Exit the application with an error message                                   *
+*******************************************************************************/
 void board_load_config_error(config_t *cfg_ptr, char *msg)
 {
   g_print("%s", msg);
@@ -116,6 +122,9 @@ void board_load_config_error(config_t *cfg_ptr, char *msg)
   exit(-1);
 }
 
+/*******************************************************************************
+* Load a named member from the configuration array                             *
+*******************************************************************************/
 int board_load_int_element(const config_t *cfg_ptr, const config_setting_t * group, char *element)
 {
   config_setting_t *setting = NULL;
@@ -131,6 +140,9 @@ int board_load_int_element(const config_t *cfg_ptr, const config_setting_t * gro
   return config_setting_get_int(setting);
 }
 
+/*******************************************************************************
+* Connect to the interface                                                     *
+*******************************************************************************/
 int8_t board_connect(void)
 {
   int flag_true = 1;
@@ -191,12 +203,18 @@ int8_t board_connect(void)
   return BOARD_SUCCESS;
 }
 
+/*******************************************************************************
+* Disconnect from the interface                                                *
+*******************************************************************************/
 void board_disconnect(void)
 {
   close(board_fd_ser);
   board_is_connected = FALSE;
 }
 
+/*******************************************************************************
+* Check if the interface has recognized a new dart hit                         *
+*******************************************************************************/
 int8_t board_get_segment(Segment *segment)
 {
 
@@ -228,6 +246,9 @@ int8_t board_get_segment(Segment *segment)
   return 0;
 }
 
+/*******************************************************************************
+* Set the matrix type in the interface                                         *
+*******************************************************************************/
 int8_t board_set_matrix_type(void)
 {
   int recv_len;
@@ -271,6 +292,9 @@ int8_t board_set_matrix_type(void)
   return BOARD_ERROR;
 }
 
+/*******************************************************************************
+* Get the firmware version from the interface                                  *
+*******************************************************************************/
 int8_t board_get_firmware_version(char *version, int version_size)
 {
   int i;
@@ -317,6 +341,9 @@ int8_t board_get_firmware_version(char *version, int version_size)
   return BOARD_ERROR;
 }
 
+/*******************************************************************************
+* Check if a matrix configuration file exist. If not, create a new one.        *
+*******************************************************************************/
 void board_check_matrix_configuration_file(void)
 {
   FILE *fd;

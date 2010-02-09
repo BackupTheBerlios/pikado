@@ -23,6 +23,9 @@
 #include "screen_main.h"
 #include "config.h"
 
+/*******************************************************************************
+* Create the screen for single scores                                          *
+*******************************************************************************/
 void screen_single_create(int bottom_fields)
 {
   int i;

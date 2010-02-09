@@ -26,6 +26,9 @@
 long hit_counter = 0;
 GtkWidget *val_matrix_value, *val_hit_counter, *val_segment;
 
+/*******************************************************************************
+* Signal handler: timer                                                        *
+*******************************************************************************/
 gboolean sig_timer(gpointer data)
 {
   char buffer[30];
@@ -69,6 +72,9 @@ void sig_destroy(GtkWidget *widget, gpointer data)
   gtk_main_quit();
 }
 
+/*******************************************************************************
+* MAIN                                                                         *
+*******************************************************************************/
 int main(int argc, char **argv)
 {
   GtkWidget *main_wnd, *vbox, *table;

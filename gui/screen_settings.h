@@ -29,13 +29,20 @@
   #define SCREEN_SETTINGS_VAR
 #endif
 
+SCREEN_SETTINGS_VAR GtkWidget *screen_settings_player_names_dialog;
 SCREEN_SETTINGS_VAR GtkWidget *screen_settings_player_button[8];
 SCREEN_SETTINGS_VAR GtkWidget *screen_settings_player_entry[8];
+SCREEN_SETTINGS_VAR int screen_settings_player_entry_index;
 
 void screen_settings_create(GtkButton *button, gpointer user_data);
 void screen_settings_player_names(GtkButton *button, gpointer user_data);
 void screen_settings_player_names_button(GtkWidget *box, char *label);
 void screen_settings_highlight_player_count(void);
+void screen_settings_player_names_sig_players(GtkButton *button, gpointer user_data);
+gboolean screen_settings_player_names_sig_entry_focus(GtkWidget *widget, GdkEventFocus *event, gpointer user_data);
+void screen_settings_player_names_sig_keyboard(GtkButton *button, gpointer user_data);
+void screen_settings_player_names_sig_ok(GtkButton *button, gpointer user_data);
+void screen_settings_player_names_sig_cancel(GtkButton *button, gpointer user_data);
 
 #endif // SCREEN_SETTINGS_H
 

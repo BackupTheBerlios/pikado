@@ -23,6 +23,9 @@
 #include "screen_main.h"
 #include "config.h"
 
+/*******************************************************************************
+* Create a button for the games selection                                      *
+*******************************************************************************/
 void screen_games_button(char *label, int x, int y, GCallback func)
 {
   GtkWidget *button, *button_label;
@@ -38,6 +41,9 @@ void screen_games_button(char *label, int x, int y, GCallback func)
     gtk_signal_connect(GTK_OBJECT (button), "clicked", GTK_SIGNAL_FUNC(func), NULL);
 }
 
+/*******************************************************************************
+* Create the games selection window                                            *
+*******************************************************************************/
 void screen_games_create(void)
 {
   if(GTK_IS_WIDGET(screen_main_vbox))

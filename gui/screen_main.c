@@ -24,11 +24,17 @@
 #include "screen_single.h"
 #include "config.h"
 
+/*******************************************************************************
+* Signal handler: Destroy the applica                                          *
+*******************************************************************************/
 void screen_main_sig_destroy(GtkWidget *widget, gpointer data)
 {
   gtk_main_quit();
 }
 
+/*******************************************************************************
+* Create the main window                                                       *
+*******************************************************************************/
 void screen_main_create(void)
 {
   screen_main_wnd = gtk_window_new(GTK_WINDOW_TOPLEVEL);
@@ -43,6 +49,9 @@ void screen_main_create(void)
 //  gtk_window_maximize(GTK_WINDOW(screen_main_wnd));
 }
 
+/*******************************************************************************
+* Create the the footer of the main window                                     *
+*******************************************************************************/
 void screen_main_footer(void)
 {
   GtkWidget *hbox, *button, *button_label;

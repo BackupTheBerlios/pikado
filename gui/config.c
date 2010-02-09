@@ -29,7 +29,9 @@
 #define CFG_DIRNAME  ".pikado"
 #define CFG_FILENAME ".pikado/config"
 
-// Load the configuration from the file
+/*******************************************************************************
+* Load the configuration from the file                                         *
+*******************************************************************************/
 void config_load(void)
 {
   int i;
@@ -59,7 +61,9 @@ void config_load(void)
   config_destroy(&cfg);
 }
 
-// Save the configuration to the file
+/*******************************************************************************
+* Save the configuration to the file                                           *
+*******************************************************************************/
 void config_save(void)
 {
   int i;
@@ -87,8 +91,10 @@ void config_save(void)
   config_destroy(&cfg);
 }
 
-// Check the directory for the configuration files.
-// Create a new directory if it don't exist.
+/*******************************************************************************
+* Check the directory for the configuration files                              *
+* Create a new directory if it don't exist                                     *
+*******************************************************************************/
 void config_check_config_directory(void)
 {
   gchar *filename;
@@ -105,8 +111,10 @@ void config_check_config_directory(void)
   }
 }
 
-// Load a "long" value from the configuration file.
-// If the setting don't exist, it si created with an inital value.
+/*******************************************************************************
+* Load a "long" value from the configuration file                              *
+* If the setting don't exist, it si created with an inital value               *
+*******************************************************************************/
 void config_load_int_value(const config_t *cfg_ptr, const char *path, long *value, int init_value)
 {
   if(!config_lookup_int(cfg_ptr, path, value))
@@ -119,7 +127,9 @@ void config_load_int_value(const config_t *cfg_ptr, const char *path, long *valu
   }
 }
 
-// Saves a "long" value from the configuration file
+/*******************************************************************************
+* Saves a "long" value from the configuration file                             *
+*******************************************************************************/
 void config_save_int_value(const config_t *cfg_ptr, const char *path, long *value)
 {
   config_setting_t *setting = NULL;
@@ -129,8 +139,10 @@ void config_save_int_value(const config_t *cfg_ptr, const char *path, long *valu
     config_setting_set_int(setting, *value);
 }
 
-// Load a "string" value from the configuration file.
-// If the setting don't exist, it si created with an inital value.
+/*******************************************************************************
+* Load a "string" value from the configuration file                            *
+* If the setting don't exist, it si created with an inital value               *
+*******************************************************************************/
 void config_load_string_value(const config_t *cfg_ptr, const char *path, char *value, int value_size, char *init_value)
 {
   const char *setting_ptr;
@@ -147,8 +159,9 @@ void config_load_string_value(const config_t *cfg_ptr, const char *path, char *v
     strncpy(value, setting_ptr, value_size);
 }
 
-// Saves a "string" value from the configuration file.
-// If the setting don't exist, it si created with an inital value.
+/*******************************************************************************
+* Saves a "string" value from the configuration file                           *
+*******************************************************************************/
 void config_save_string_value(const config_t *cfg_ptr, const char *path, char *value)
 {
   config_setting_t *setting = NULL;
