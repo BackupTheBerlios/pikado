@@ -23,7 +23,7 @@
 
 typedef unsigned char u08;
 
-u08 SoftwareVersion[] = "Pikado_2010_01_15";
+u08 SoftwareVersion[] = "Pikado_2010_02_13";
 
 #define TIMER0_RELOAD		205	   // 200us @ 16 MHz
 #define PC_BAUDRATE     51     // 19200 Baud @ 16MHz

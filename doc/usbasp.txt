@@ -1,0 +1,34 @@
+Various avrdude commands
+------------------------
+- avrdude documentation:
+  http://www.nongnu.org/avrdude/user-manual/avrdude.html
+
+- Fuses calculator:
+  http://www.engbedded.com/fusecalc/
+
+- Getting some status information from the ISP programmer
+  $ avrdude -c usbasp -p m128 -n -v
+
+- Writing fuse bits
+  $ avrdude -c usbasp -p m128 -U lfuse:w:0x3f:m -U hfuse:w:0x1f:m -U efuse:w:0xff:m
+
+- Writing FLASH
+  $ avrdude -c usbasp -p m128 -U flash:w:pikado.hex
+
+
+Access to the ISP programmer without root rights
+------------------------------------------------
+- Create the file "/etc/udev/rules.d/99-avrisp.rules" with the following content:
+
+  # Atmel AVR ISP mkII
+  SYSFS{idVendor}=="03eb", SYSFS{idProduct}=="2104", GROUP="plugdev", MODE="0660"
+
+  # usbprog bootloader
+  SYSFS{idVendor}=="1781", SYSFS{idProduct}=="0c62", GROUP="plugdev", MODE="0660"
+
+  # USBasp programmer
+  SYSFS{idVendor}=="16c0", SYSFS{idProduct}=="05dc", GROUP="plugdev", MODE="0660"
+
+- Restart udev
+  $ sudo /etc/init.d/udev restart
+
