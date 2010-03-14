@@ -1,0 +1,11 @@
+Creating a bootable USB stick
+-----------------------------
+=> Erase all partitions from the USB stick (e.g. using GParted)
+
+- Start the "USB-Startmedium-Creator" (Menu: System->System settings)
+- Select the USB stick => Format (a new partition will be created)
+- Select the new partition => Format
+- Select the ISO file: e.g. ubuntu-9.10-desktop-i386.iso
+- Select the option: "Don't save settings ..."
+- Create ...
+

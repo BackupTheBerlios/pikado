@@ -21,7 +21,7 @@
 
 REMOTE_PATH=/mnt/pikado/
 
-ssh 192.168.1.180 'killall pikado ; killall pikado_diag'
+ssh 192.168.1.180 -l user 'killall pikado ; killall pikado_diag'
 
 mount ${REMOTE_PATH}
 

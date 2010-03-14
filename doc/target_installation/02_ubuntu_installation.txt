@@ -1,0 +1,41 @@
+Ubuntu Desktop Installation (Karmic)
+------------------------------------
+=> A internet connection is available !
+
+- Boot from the USB stick
+- Select the language
+- Select "Test Ubuntu ..."
+=> The USB stick boots now into the Gnome desktop
+- Configure the internet connection (E.g. via LAN or WiFi etc.)
+- Click on the desktop icon "Install Ubuntu ..."
+  - Select the installer language, timezone, keyboard layout
+  - Manual partitioning:
+    - 2GB primary swap partition
+    - Primary ext4 partition as mount point / for the the rest of the harddisk
+  - Names:
+    - Username: user
+    - Password: user
+    - Computer name: pikado
+    - Automatic login
+  - Start the installation ...
+  => Ubuntu will be installed (incl. reboot)
+
+- Configure the internet connection (E.g. via LAN or WiFi etc.)
+  - static IP address: 192.168.1.180
+
+- Appearance:
+  - No visual effects
+  - Combine the lower panel and the upper panel to one panel at the top
+  - Disable the screensaver
+
+- Energy settings: 
+  - Don't switch off the monitor
+  - Pressing the power button: Switch off the computer  
+
+- Remote screen: Allow other user to see and steer this screen (no security)
+
+- Install all updates over the internet ...
+
+- Install the libconfig8 package which is needed by the pikado software
+  $ sudo apt-get install libconfig8
+

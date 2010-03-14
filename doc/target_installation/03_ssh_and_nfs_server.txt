@@ -6,21 +6,21 @@ SSH login
   => The server will be restarted automatically
 
 - Access from an another machine:
-  $ ssh 192.168.1.180 -l username
+  $ ssh 192.168.1.180 -l user
 
 - Copy your public SSH key to the server:
-  $ ssh-copy-id -i ~/.ssh/id_rsa.pub username@192.168.1.180
+  $ ssh-copy-id -i ~/.ssh/id_rsa.pub user@192.168.1.180
 
 Application path on the target
 ------------------------------
 $ sudo mkdir /pikado
-$ sudo chown username:username /pikado
+$ chown user:user /pikado
 
 Sharing the application path using NFS
 --------------------------------------
 - Create the application path:
   $ sudo mkdir /pikado
-  $ chown username:username /pikado
+  $ sudo chown username:username /pikado
 
 - Install the NFS server:
   $ sudo apt-get install nfs-kernel-server

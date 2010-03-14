@@ -23,8 +23,8 @@
 
 if [ "$1" = "" ]
 then
-  ssh 192.168.1.180 'export DISPLAY=:0.0 ; /pikado/pikado'
+  ssh 192.168.1.180 -l user 'export DISPLAY=:0.0 ; /pikado/pikado'
 else
-  ssh 192.168.1.180 'export DISPLAY=:0.0 ; /pikado/pikado_diag'
+  ssh 192.168.1.180 -l user 'export DISPLAY=:0.0 ; /pikado/pikado_diag'
 fi
 

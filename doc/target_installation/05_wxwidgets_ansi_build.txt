@@ -1,0 +1,21 @@
+Building an ANSI build of wxWidgets
+-----------------------------------
+
+=> This special library is only needed for the old pikado software which was never public released.
+
+- Install the build dependencies for wxWidgets: (compiler, various libraries etc.)
+  $ sudo apt-get build-dep libwxgtk2.8-0
+
+- Download the latest stable source release of wxWidgets 2.8 from www.wxwidgets.org
+  => wxGTK-2.8.10.tar.gz
+  => gsockgtk.cpp (patch for newer GTK versions)
+
+- Extract the source archive and copy the gsockgtk.cpp file into the directory: "src/gtk/"
+
+- Compile the library (inside the "wxGTK-2.8.10" directory)
+  $ mkdir build_gtk
+  $ cd build_gtk
+  $ ../configure
+  $ make
+  $ sudo make install
+

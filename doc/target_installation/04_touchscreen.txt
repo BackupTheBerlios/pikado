@@ -1,0 +1,30 @@
+Installation of the eGalax Touchscreen Driver
+---------------------------------------------
+- Download the driver from: http://210.64.17.162/web20/eGalaxTouchDriver/linuxDriver.htm
+- Copy the driver archive (e.g. eGalaxTouch-3.00.3719-32b-k26.tar.gz) to the home directory on the target
+
+- Extract the archive:
+  $ tar -xvzf eGalaxTouch-3.00.3719-32b-k26.tar.gz
+
+- Copy the Xorg configuration from this directory on the target: (The installation needs an generic file ...)
+  $ sudo cp -v xorg.conf /etc/X11/xorg.conf
+
+- Start the installation:
+  $ cd eGalaxTouch32
+  $ sudo ./setup.sh
+
+  => Select interface controller: [3] USB
+
+- Reboot the computer
+
+- Calibrate the touchscreen:
+  $ eGalaxTouch
+
+  => Select the page "Tool" and click on the button "4Pts Cal"
+ 
+  After successfully calibration change the mouse mode of the touchscreen:
+
+  => Select the page "Misc" and click on the button "Change" until you get the mode "Click on Touch"
+
+  => Click on the "Apply" button and exit the application.
+

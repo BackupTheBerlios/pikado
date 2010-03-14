@@ -154,7 +154,10 @@ int8_t board_connect(void)
     return BOARD_ERROR_CFG_FILE;
 
   if((board_fd_ser = open(config.serial_port, O_RDWR | O_NOCTTY | O_NDELAY)) == -1)
+  {
+    printf("Error: %s !\n", strerror(errno));
     return BOARD_ERROR;
+  }
 
   if(ioctl(board_fd_ser, FIONBIO, &flag_true) == -1)
   {
